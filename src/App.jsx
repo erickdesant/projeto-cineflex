@@ -1,12 +1,19 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from './Navbar';
-import Body from './Body';
+import HomePage from './HomePage';
+import Sessoes from './Sessoes';
 
-export default function App (){
+export default function App () {
     return (
         <>
-            <Navbar/>
-            <Body/>
+            <BrowserRouter>
+                <Navbar/>
+                <Routes>
+                    <Route path="/" element={<HomePage/>}/>
+                    <Route path="/sessoes/:idFilme" element={<Sessoes/>}/>
+                </Routes>
+            </BrowserRouter>
         </>
     )
 }

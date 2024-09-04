@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import {useEffect} from 'react'
 import axios from 'axios';
+import {Link} from "react-router-dom";
 
-export default function Body(){
+export default function HomePage(){
 
     const [filmes,setFilmes] = React.useState([]);
 
@@ -16,12 +17,15 @@ export default function Body(){
 
     return(
         <BodyContainer>
+            <p>Em Cartaz</p>
             <MovieContainer>
-            {filmes.map(filme => (
-                <FilmDiv key={filme.id}>
-                    <img src={filme.posterURL} alt={filme.title} />
-                </FilmDiv>
-            ))}
+
+                {filmes.map(filme => (
+                    <FilmDiv key={filme.id}>
+                       <Link to = {`/sessoes/:${filme.id}`}> <img src={filme.posterURL} alt={filme.title}/>
+                       </Link>
+                    </FilmDiv>
+                ))}
             </MovieContainer>
         </BodyContainer>
     )
@@ -32,7 +36,20 @@ const BodyContainer = styled.div`
     height: 100%;
     background-color: #212226;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+    p{
+        display:block;
+        color:white;
+        font-size: 24px;
+        padding: 20px;
+        font-family: 'Sarala',sans-serif;
+        font-weight: 400;
+        line-height: 39.13px;
+        letter-spacing: 0.04em;
+        text-align: center;
+    }
 `
 
 const MovieContainer = styled.div`
