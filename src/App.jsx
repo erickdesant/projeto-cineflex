@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import HomePage from './HomePage';
 import Sessoes from './Sessoes';
 import Assentos from './Assentos.jsx';
+import Sucesso from "./Sucesso.jsx";
 
 export default function App () {
     return (
@@ -14,6 +15,7 @@ export default function App () {
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="/sessoes/:idFilme" element={<Sessoes/>}/>
                     <Route path = "assentos/:idSessao" element = {<Assentos/>}/>
+                    <Route path = "/sucesso" element = {<Sucesso/>}/>
                 </Routes>
             </BrowserRouter>
         </>

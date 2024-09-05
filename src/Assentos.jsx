@@ -1,32 +1,54 @@
 import React, {useEffect} from 'react'
 import styled from "styled-components";
-import {useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
+
 
 export default function Assentos(){
     const [assentos,setAssentos] = React.useState([]);
     const idSessao = useParams().idSessao.slice(1)
     const [assentosEscolhidos,setAssentosEscolhidos] = React.useState([])
+    const navigate = useNavigate()
+    const [numeroAssentos,setNumeroAssentos] = React.useState([])
+    const [movieTitle,setMovieTitle] = React.useState()
+    const [weekDay,setWeekDay] = React.useState()
+    const [date,setDate] = React.useState()
 
 
     useEffect(() => {
         const req = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`)
         req.then(res => {
             setAssentos(res.data.seats)
+            setMovieTitle(res.data.movie.title)
+            setWeekDay(res.data.day.weekday)
+            setDate(res.data.day.date)
         })
     },[])
 
-    function createTicket(ids,name,cpf){
-        console.log(ids,name,cpf)
+    function createTicket(e,assentos){
+        e.preventDefault()
+
+        console.log(assentos,e.target.nome.value,e.target.cpf.value)
+        axios.post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many', {
+            ids : assentos,
+            name : e.target.nome.value,
+            cpf : e.target.cpf.value
+        }).then(function (response) {
+            console.log(response);
+            navigate('/sucesso',{ state: { numeroAssentos, movieTitle:movieTitle,weekDay:weekDay,date:date,name: e.target.nome.value, cpf: e.target.cpf.value } })
+        })
+            .catch(function (error) {
+                console.error(error);
+            });
     }
-    function selecionaAssentos(id){
+    function selecionaAssentos(id,name){
         if(assentosEscolhidos.includes(id)){
-            setAssentosEscolhidos(assentosEscolhidos.filter(assentoId => assentoId !== id));
-            console.log(assentosEscolhidos)
+            setAssentosEscolhidos(assentosEscolhidos.filter(assentoId => assentoId !== id))
+            setNumeroAssentos(numeroAssentos.filter(assentoName => assentoName !== name))
         }
         else{
             setAssentosEscolhidos([...assentosEscolhidos,id])
-            console.log(assentosEscolhidos)
+            setNumeroAssentos([...numeroAssentos,name])
         }
     }
 
@@ -34,13 +56,16 @@ export default function Assentos(){
         <>
             <BodyContainer>
                 <p>Selecione o(s) assento(s)</p>
+                <form onSubmit={(e) => createTicket(e,assentosEscolhidos)}>
                     <AssentosContainer>
                         {assentos.map((assento) => (
-                            <Assento key = {assento.id} state = {assento.isAvailable} clicked = {assentosEscolhidos.includes(assento.id)}>
-                                <button onClick={() =>  {
-                                    if(assento.isAvailable)
-                                        return selecionaAssentos(assento.id)
-                                    }
+                            <Assento key={assento.id} state={assento.isAvailable}
+                                     clicked={assentosEscolhidos.includes(assento.id)}>
+                                <button type = "button" onClick={() => {
+
+                                    if (assento.isAvailable)
+                                        return selecionaAssentos(assento.id,assento.name)
+                                }
                                 }>
                                     <p>{assento.name}</p>
                                 </button>
@@ -48,6 +73,14 @@ export default function Assentos(){
                         ))}
                     </AssentosContainer>
                     <hr/>
+                    <FormContainer>
+                        <label htmlFor="nome">Nome:</label>
+                        <input type="text" id="nome"/>
+                        <label htmlFor="cpf">CPF:</label>
+                        <input type="text" id="cpf"/>
+                        <button type="submit">Reservar assento(s)</button>
+                    </FormContainer>
+                </form>
             </BodyContainer>
         </>
     )
@@ -71,6 +104,11 @@ const BodyContainer = styled.div`
         line-height: 39.13px;
         letter-spacing: 0.04em;
         text-align: center;
+    }
+    hr{
+        border: 1px solid #4E5A65;
+        margin: 25px 0;
+        width: 90%;
     }
 `
 
@@ -104,5 +142,14 @@ const Assento = styled.div`
         all: unset; 
         display: inline-block; /
         cursor: pointer; 
+    }
+`
+
+const FormContainer = styled.div`
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    label{
+        color:white;
     }
 `
