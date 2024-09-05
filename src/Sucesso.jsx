@@ -15,17 +15,16 @@ export default function Sucesso(){
                     <hr/>
                     <p>{info.movieTitle}</p>
                     <h2>Ingressos</h2>
-                    {info.numeroAssentos.map((item,index) => (
+                    <hr/>
+                    {info.numeroAssentos.map((item, index) => (
                         <p key={index}>Assento {item}</p>
                     ))}
-                    <hr/>
-                    <p>{info.movieTitle}</p>
                     <h2>Comprador(a)</h2>
                     <hr/>
                     <p>Nome: {info.name}</p>
                     <p>CPF: {info.cpf}</p>
                 </PedidoContainer>
-                <button><Link to="/"> Voltar para tela inicial</Link></button>
+                <button><StyledLink to="/"> Voltar para tela inicial</StyledLink></button>
             </BodyContainer>
         </>
     )
@@ -46,7 +45,7 @@ const BodyContainer = styled.div`
         letter-spacing: 0.04em;
         text-align: center;
         color: #9DB899;
-
+        margin: 10px 0;
     }
     h2{
         font-family: 'Sarala',sans-serif;
@@ -70,6 +69,19 @@ const BodyContainer = styled.div`
         text-align: left;
 
     }
+    button{
+        color:#2B2D36;
+        background-color: #EE897F;
+        font-family: 'Sarala',sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 29.35px;
+        letter-spacing: 0.04em;
+        text-align: center;
+        border-radius:8px;
+        margin:4px 0;
+    }
+    
 `
 
 const PedidoContainer = styled.div`
@@ -79,4 +91,9 @@ const PedidoContainer = styled.div`
     margin: 10px;
     border-radius: 8px;
     width: 60vw;
+`
+
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    color:#2B2D36;
 `

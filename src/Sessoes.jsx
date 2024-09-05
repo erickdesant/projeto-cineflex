@@ -27,8 +27,8 @@ export default function Sessoes(){
                         <hr/>
                         <TimeContainer>
                             {sessao.showtimes.map((showtime) =>
-                                <HourDiv key = {showtime.id}> <Link to={`/assentos/:${showtime.id}`}><p>{showtime.name}</p>
-                                </Link></HourDiv>
+                                <HourDiv key = {showtime.id}> <StyledLink to={`/assentos/:${showtime.id}`}><p>{showtime.name}</p>
+                                </StyledLink></HourDiv>
                             )}
                         </TimeContainer>
                     </SessionContainer>
@@ -50,7 +50,7 @@ const BodyContainer = styled.div`
         display:block;
         color:white;
         font-size: 24px;
-        padding: 20px;
+        padding: 5px;
         font-family: 'Sarala',sans-serif;
         font-weight: 400;
         line-height: 39.13px;
@@ -85,4 +85,7 @@ const HourDiv = styled.div`
         text-align: center;
         color: #EE897F;
     }
+`
+const StyledLink = styled(Link)`
+    text-decoration: none;
 `

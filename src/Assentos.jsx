@@ -61,23 +61,24 @@ export default function Assentos(){
                         {assentos.map((assento) => (
                             <Assento key={assento.id} state={assento.isAvailable}
                                      clicked={assentosEscolhidos.includes(assento.id)}>
-                                <button type = "button" onClick={() => {
+                                <button type="button" onClick={() => {
 
                                     if (assento.isAvailable)
-                                        return selecionaAssentos(assento.id,assento.name)
+                                        return selecionaAssentos(assento.id, assento.name)
                                 }
                                 }>
                                     <p>{assento.name}</p>
                                 </button>
                             </Assento>
                         ))}
+                        <hr/>
                     </AssentosContainer>
-                    <hr/>
+
                     <FormContainer>
                         <label htmlFor="nome">Nome:</label>
-                        <input type="text" id="nome"/>
+                        <input type="text" id="nome" placeholder="Digite seu nome..."/>
                         <label htmlFor="cpf">CPF:</label>
-                        <input type="text" id="cpf"/>
+                        <input type="text" id="cpf" placeholder="Digite seu CPF..."/>
                         <button type="submit">Reservar assento(s)</button>
                     </FormContainer>
                 </form>
@@ -88,12 +89,13 @@ export default function Assentos(){
 
 const BodyContainer = styled.div`
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
+    max-height: 100%;
     background-color: #212226;
     display: flex;
     align-items: center;
     flex-direction: column;
-    
+    justify-content: center;
     p{
         display:block;
         color:white;
@@ -115,6 +117,7 @@ const BodyContainer = styled.div`
 const AssentosContainer = styled.div`
     display:flex;
     flex-wrap: wrap;
+    justify-content: center;
     
 `
 const Assento = styled.div`
@@ -140,16 +143,49 @@ const Assento = styled.div`
     button {
         
         all: unset; 
-        display: inline-block; /
+        display: inline-block; 
         cursor: pointer; 
     }
 `
 
 const FormContainer = styled.div`
     display:flex;
-    justify-content: center;
     flex-direction: column;
+    margin: 0 5vw;
     label{
         color:white;
+        font-family: 'Sarala',sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 26.09px;
+        text-align: left;
+        margin:5px;
     }
+    input::placeholder{
+        font-family: 'Roboto',sans-serif;
+        font-size: 16px;
+        font-style: italic;
+        font-weight: 400;
+        line-height: 18.75px;
+        text-align: left;
+        color: #AFAFAF;
+    }
+    input{
+        border-radius:8px;
+        padding:8px;
+        margin:4px 0;
+    }
+    button{
+        color:#2B2D36;
+        background-color: #EE897F;
+        font-family: 'Sarala',sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 29.35px;
+        letter-spacing: 0.04em;
+        text-align: center;
+        border-radius:8px;
+        margin:4px 0;
+    }
+    
 `
